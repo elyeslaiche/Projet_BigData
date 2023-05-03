@@ -57,13 +57,15 @@ import {CdkMenuModule} from '@angular/cdk/menu';
 import {DialogModule} from '@angular/cdk/dialog';
 import {QuizzComponent} from './quizz/quizz.component';
 import { AccueilComponent } from './accueil/accueil.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MenuComponent,
     QuizzComponent,
-    AccueilComponent
+    AccueilComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
