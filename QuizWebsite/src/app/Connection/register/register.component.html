@@ -1,0 +1,36 @@
+<section class="vh-100">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col col-lg-4 mb-4 mb-lg-0">
+          <div class="card mb-3">
+            <h2 class="lg-title">Register</h2>
+            <form [formGroup]="registerForm" (ngSubmit)="OnSubmit()">
+              <div class="card-body">
+                <div class="row pt-1">
+                  <div class="col-6 mb-3 username">
+                    <input class="form-control" type="text" formControlName="userName" placeholder="Username">
+                  </div>
+                  <div class="col-6 mb-3 password">
+                    <input class="form-control" [type]="showPassword ? 'text' : 'password'" placeholder="Password "
+                      formControlName="passWord">
+                    <img [src]="showPassword ? 'assets\\hidden.png' : 'assets\\view.png'"
+                      (click)="showPassword = !showPassword;">
+                    <p class="text-danger" *ngIf="!is_valid_form">Password must be an 8 to 12 string containing UpperCase
+                      and LowerCase letters, digits and special characters</p>
+                  </div>
+                  <div class="col-6 mb-3 username">
+                    <input class="form-control " type="text" formControlName="email" placeholder="E-mail">
+                    <p class="text-danger" *ngIf="!is_valid_form">This might not be a valid mail address</p>
+                  </div>
+                </div>
+                <div class="d-flex justify-content-center">
+                  <button type="submit" *ngIf="!submitted" class="btn btn-primary">Register</button>
+                  <p *ngIf="submitted" class="userCreated"> The user {{user.pseudo}} has been created</p>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>

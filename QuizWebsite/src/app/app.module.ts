@@ -58,6 +58,8 @@ import {DialogModule} from '@angular/cdk/dialog';
 import {QuizzComponent} from './quizz/quizz.component';
 import { AccueilComponent } from './accueil/accueil.component';
 import { ProfileComponent } from './profile/profile.component';
+import { LoginComponent } from './Connection/login/login.component';
+import { RegisterComponent } from './Connection/register/register.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +67,9 @@ import { ProfileComponent } from './profile/profile.component';
     MenuComponent,
     QuizzComponent,
     AccueilComponent,
-    ProfileComponent
+    ProfileComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

@@ -1,25 +1,8 @@
-<div *ngIf="!endofquiz">
-    <div *ngIf="!showAnswers" class="quiz-all">
-        <p>{{questions[currentQuestion].text}}</p>
-        <div>
-            <button (click)="checkAnswer(true)" class="quiz-button">Vrai</button>
-            <button (click)="checkAnswer(false)" class="quiz-button">Faux</button>
-        </div>
-    </div>
-  
-    <div *ngIf="showAnswers" class="quiz-all">
-        <p>{{questions[currentQuestion].text}}</p>
-        <p *ngIf="questions[currentQuestion].answer !== null"
-            [ngClass]="{'correct-answer': questions[currentQuestion].answer, 'incorrect-answer': !questions[currentQuestion].answer}">
-            {{questions[currentQuestion].answer ? 'Bonne réponse !' : 'Mauvaise réponse'}}
-        </p>
-        <p>{{questions[currentQuestion].commentary}}</p>
-        <button (click)="nextQuestion()" class="quiz-button">Suivant</button>
-    </div>
-</div>
 
-<div *ngIf="endofquiz" class="quiz-all">
-    Votre score est de : {{ score }}/{{ this.questions.length }}
-    <button (click)="restartquiz()" class="quiz-button">Recommencer</button>
-</div>
-  
+<div style="text-align:center;margin-top: 200px;" >
+    <button (click)="initiateRecording()" class="btn btn-primary" *ngIf="!recording" style="cursor: pointer;background-color: green;color: white;font-size: 40px;"> Start Recording </button>
+    <button (click)="stopRecording()" class="btn btn-danger" *ngIf="recording" style="cursor: pointer;background-color: red;color: white;font-size: 40px;"> Stop Recording </button>
+    <audio controls="" *ngIf="url">
+    <source [src]="sanitize(url)" type="audio/wav">
+    </audio>
+    </div>
