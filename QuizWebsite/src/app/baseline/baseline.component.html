@@ -1,0 +1,70 @@
+<header class="header-top bg-grey justify-content-center">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-12 col-md-12">
+          <nav class="navbar navbar-expand-lg navigation-2 navigation">
+            <div class="collapse navbar-collapse" id="navbar-collapse">
+              <ul id="menu" class="menu navbar-nav mx-auto">
+                <li class="nav-item">
+                  <img src="../../assets/117944.png">
+                  <a class="nav-link" routerLink="home">Quizzons !</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" *ngIf="isConnected" routerLink="Quizz">Start a Quizz</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" *ngIf="isConnected" routerLink="Profile">Your Profile</a>
+                </li>      
+                <li class="nav-item">
+                  <a class="nav-link" *ngIf="!isConnected" routerLink="Login">Log In</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" *ngIf="!isConnected" routerLink="Register">Sign In</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link disabled" *ngIf="isConnected"> Welcome {{user.Nom_utilisateur}} </a>
+                </li>
+                <li class="nav-item " >
+                  <a class="nav-link" *ngIf="isConnected" (click)="LogOut()">LogOut</a>
+                </li>
+                
+              </ul>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </header>
+  
+  <router-outlet></router-outlet>
+  
+  <section class="footer-2 gray-bg pb-5">
+      <div class="footer-btm mt-5 pt-4 border-top">
+        <div class="row justify-content-center">
+          <div class="col-lg-6">
+            <div class="copyright text-center ">
+              <p>By Maxime Richaudeau, Issa Mohamed Abdoulkarim, Elyes Laiche, Eugene Yaro</p>
+              <p>@Copyright 2023</p>
+            </div>
+          </div>
+        </div>
+      </div>
+  </section>
+  
+  <script src="/src/assets/plugins/jquery/jquery.js"></script>
+      <!-- Bootstrap jQuery -->
+      <script src="/src/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+      <script src="/src/assets/plugins/bootstrap/js/popper.min.js"></script>
+      <!-- Owl caeousel -->
+      <script src="/src/assets/plugins/owl-carousel/owl.carousel.min.js"></script>
+      <script src="/src/assets/plugins/slick-carousel/slick.min.js"></script>
+      <script src="/src/assets/plugins/magnific-popup/magnific-popup.js"></script>
+      <!-- Instagram Feed Js -->
+      <script src="/src/assets/plugins/instafeed-js/instafeed.min.js"></script>
+      <!-- Google Map -->
+      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC72vZw-6tGqFyRhhg5CkF2fqfILn2Tsw"></script>
+      <script src="/src/assets/plugins/google-map/gmap.js"></script>
+      <!-- main js -->
+      <script src="src/assets/custom.js"></script>
+  
+  

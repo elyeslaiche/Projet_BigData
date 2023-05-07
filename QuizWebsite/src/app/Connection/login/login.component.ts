@@ -58,7 +58,6 @@ export class LoginComponent {
     function redirect(ls: LoginService, router: Router, loginForm: FormGroup): boolean {
       console.log(ls.user); 
       if ((ls.user.Nom_utilisateur == identifiant) && (ls.user.Mot_de_passe == pwd)) {
-        console.log('aa')
         ls.isConnected = true;
         ls.setUserLogged(ls.user);
         router.navigate(['']).then(() => {

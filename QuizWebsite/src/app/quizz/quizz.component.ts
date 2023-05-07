@@ -40,7 +40,7 @@ export class QuizzComponent /*implements OnInit*/ {
     var options: RecordRTC.Options = {
       mimeType: "audio/wav",
       numberOfAudioChannels: 1,
-      sampleRate: 16000,
+      sampleRate: 48000,
     };
     //Start Actuall Recording
     var StereoAudioRecorder = RecordRTC.StereoAudioRecorder;
