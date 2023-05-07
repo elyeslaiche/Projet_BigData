@@ -47,11 +47,11 @@ export class LoginService {
 
 
 export class UserLogged {
-   constructor(
-     public id: number,
-     public pseudo: string,
-     public email: string,
-     public password: string,
-     public last_updated: string,
-   ) { }
+  constructor(
+    public ID_utilisateur: number,
+    public Nom_utilisateur: string,
+    public Email: string,
+    public Mot_de_passe: string,
+    public Date_inscription: string,
+  ) { }
 }

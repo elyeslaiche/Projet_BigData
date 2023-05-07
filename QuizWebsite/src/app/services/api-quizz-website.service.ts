@@ -23,9 +23,11 @@ export class ApiQuizzWebsiteService {
       private router: Router)
 { }
 
-getLoginResponse(identifiant: string): Observable<UserLogged> {
-  return this.http.get<UserLogged>(`${this.apiUrl}/users/${identifiant}`,
-    {headers: this.headers});
+getLoginResponse(identifiant: string, password: string): Observable<UserLogged> {
+  return this.http.post<UserLogged>(`${this.apiUrl}/login`, {
+    "Nom_utilisateur": identifiant,
+    "Mot_de_passe": password
+  },{headers: this.headers});
 }
 
 // getUserStats(user_id: number): Observable<Stat[]>{
@@ -43,15 +45,15 @@ getLoginResponse(identifiant: string): Observable<UserLogged> {
 // }
 
 postUserCreated(user: User){
-  return this.http.post<UserLogged>(`${this.apiUrl}/users/`, user, {headers: this.headers})
+  return this.http.post<UserLogged>(`${this.apiUrl}/utilisateurs/`, user, {headers: this.headers})
 }
 
 postRegister(user: User){
-  return  this.http.post<UserLogged>(`${this.apiUrl}/users/`, user, {headers: this.headers})
+  return  this.http.post<UserLogged>(`${this.apiUrl}/utilisateurs/`, user, {headers: this.headers})
 }
 
 putResetPwd(pseudo: string, oldPwd: string, newPwd: string){
-  return this.http.put(`${this.apiUrl}/users/${pseudo}/reset_pwd?pwd=${oldPwd}&new_pwd=${Md5.hashStr(newPwd)}`, 0)
+  return this.http.put(`${this.apiUrl}/utilisateurs/${pseudo}/reset_pwd?pwd=${oldPwd}&new_pwd=${Md5.hashStr(newPwd)}`, 0)
 }
 
 // putResultPredictedOnBdd(data : resutTosave){
@@ -63,7 +65,7 @@ putResetPwd(pseudo: string, oldPwd: string, newPwd: string){
 //     ),  {headers: this.headers}
 // }
 deleteUser(pseudo: string, pwd: string){
-  return this.http.delete(`${this.apiUrl}/users/${pseudo}?pwd=${pwd}`)
+  return this.http.delete(`${this.apiUrl}/utilisateurs/${pseudo}?pwd=${pwd}`)
 }
 
 }
