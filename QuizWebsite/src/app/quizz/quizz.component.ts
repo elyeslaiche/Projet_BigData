@@ -2,6 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { QuizService } from '../services/quizz.service';
 import * as RecordRTC from 'recordrtc';
 import { DomSanitizer } from '@angular/platform-browser';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-quizz',
@@ -9,6 +10,9 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrls: ['./quizz.component.css']
 })
 export class QuizzComponent /*implements OnInit*/ {
+
+  wizardForm!: FormGroup;
+
   title = 'micRecorder';
   //Lets declare Record OBJ
   record: any;
@@ -17,7 +21,13 @@ export class QuizzComponent /*implements OnInit*/ {
   //URL of Blob
   url: any;
   error: any;
+
+  Wizard: boolean = true;
   quizzes: any[] = [];
+  amount!: number;
+  category!: number;
+  difficulty!: string;
+
   constructor(private domSanitizer: DomSanitizer, private quizzesService: QuizService) { }
   sanitize(url: string) {
     return this.domSanitizer.bypassSecurityTrustUrl(url);
@@ -32,6 +42,14 @@ export class QuizzComponent /*implements OnInit*/ {
       audio: true
     };
     navigator.mediaDevices.getUserMedia(mediaConstraints).then(this.successCallback.bind(this), this.errorCallback.bind(this));
+  }
+
+  ngOnInit(){
+    this.wizardForm = new FormGroup({
+      amount: new FormControl(this.amount),
+      difficulty: new FormControl(this.difficulty),
+      category: new FormControl(this.category),
+    })
   }
   /**
   * Will be called automatically.
@@ -70,7 +88,8 @@ export class QuizzComponent /*implements OnInit*/ {
     this.error = 'Can not play audio in your browser';
   }
 
-  ngOnInit(): void {
+  OnSubmit(): void {
+    this.Wizard = false;
     this.quizzesService.getQuizzes().subscribe(
       response => {
         this.quizzes = response.results;

@@ -1,0 +1,98 @@
+form {
+    max-width: 600px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  label {
+    margin-bottom: 10px;
+    font-size: 20px;
+  }
+  
+  select {
+    font-size: 18px;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    margin-bottom: 20px;
+    width: 100%;
+  }
+  
+  button {
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 20px;
+    padding: 10px 20px;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #0062cc;
+  }
+  
+  .error-message {
+    color: red;
+    font-size: 16px;
+    margin-top: 10px;
+  }
+
+  .question {
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .question h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .question p {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 18px;
+    line-height: 1.5;
+  }
+  
+  .question .choices {
+    margin-top: 10px;
+  }
+  
+  .question .choices label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 16px;
+    line-height: 1.5;
+    cursor: pointer;
+  }
+  
+  .question .choices input[type="radio"] {
+    margin-right: 10px;
+    cursor: pointer;
+  }
+  
+  .question .feedback {
+    margin-top: 10px;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  
+  .question .feedback.correct {
+    color: green;
+    font-weight: bold;
+  }
+  
+  .question .feedback.incorrect {
+    color: red;
+    font-weight: bold;
+  }
+  
+  
