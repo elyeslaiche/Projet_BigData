@@ -1,8 +1,18 @@
-
-<div style="text-align:center;margin-top: 200px;" >
-    <button (click)="initiateRecording()" class="btn btn-primary" *ngIf="!recording" style="cursor: pointer;background-color: green;color: white;font-size: 40px;"> Start Recording </button>
-    <button (click)="stopRecording()" class="btn btn-danger" *ngIf="recording" style="cursor: pointer;background-color: red;color: white;font-size: 40px;"> Stop Recording </button>
+<div style="text-align:center;margin-top: 200px;">
+    <button (click)="initiateRecording()" class="btn btn-primary" *ngIf="!recording"
+        style="cursor: pointer;background-color: green;color: white;font-size: 40px;"> Start Recording </button>
+    <button (click)="stopRecording()" class="btn btn-danger" *ngIf="recording"
+        style="cursor: pointer;background-color: red;color: white;font-size: 40px;"> Stop Recording </button>
     <audio controls="" *ngIf="url">
-    <source [src]="sanitize(url)" type="audio/wav">
+        <source [src]="sanitize(url)" type="audio/wav">
     </audio>
-    </div>
+</div>
+
+
+<div *ngFor="let quiz of quizzes">
+    <h2>{{ quiz.question }}</h2>
+    <ul>
+        <li *ngFor="let answer of quiz.incorrect_answers">{{ answer }}</li>
+        <li>{{ quiz.correct_answer }}</li>
+    </ul>
+</div>

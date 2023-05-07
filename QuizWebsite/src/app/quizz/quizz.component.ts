@@ -1,6 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { QuizService } from '../services/quizz.service';
-import { saveAs } from 'file-saver';
 import * as RecordRTC from 'recordrtc';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -18,7 +17,8 @@ export class QuizzComponent /*implements OnInit*/ {
   //URL of Blob
   url: any;
   error: any;
-  constructor(private domSanitizer: DomSanitizer) { }
+  quizzes: any[] = [];
+  constructor(private domSanitizer: DomSanitizer, private quizzesService: QuizService) { }
   sanitize(url: string) {
     return this.domSanitizer.bypassSecurityTrustUrl(url);
   }
@@ -69,5 +69,15 @@ export class QuizzComponent /*implements OnInit*/ {
   errorCallback(error: any) {
     this.error = 'Can not play audio in your browser';
   }
-  ngOnInit() { }
+
+  ngOnInit(): void {
+    this.quizzesService.getQuizzes().subscribe(
+      response => {
+        this.quizzes = response.results;
+      },
+      error => {
+        console.log('Error fetching quizzes:', error);
+      }
+    );
+  }
 }

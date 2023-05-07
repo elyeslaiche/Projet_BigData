@@ -1,32 +1,24 @@
 import { Injectable } from '@angular/core';
 import { QuizQuestion } from '../models/quiz.model';
-import axios from 'axios';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class QuizService {
-  ListQuizz!: QuizQuestion[];
-  openaiApiKey: string = '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';
+  private apiUrl = 'https://opentdb.com/api.php';
 
-  async generateQuestion(prompt: string): Promise<string> {
-    const response = await axios.post(
-      'https://api.openai.com/v1/engines/davinci/completions',
-      {
-        prompt: prompt,
-        max_tokens: 1024,
-        n: 1,
-        stop: null,
-        temperature: 0.5,
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.openaiApiKey}`,
-        },
+  constructor(private http: HttpClient) { }
+
+  getQuizzes(): Observable<any> {
+    const options = {
+      params: {
+        amount: '10', // Number of quizzes to fetch
+        category: '25', // Category of quizzes (Computers)
+        type: 'multiple' // Type of quizzes (multiple choice)
       }
-    );
-
-    return response.data.choices[0].text.trim();
+    };
+    return this.http.get<any>(this.apiUrl, options);
   }
 }
