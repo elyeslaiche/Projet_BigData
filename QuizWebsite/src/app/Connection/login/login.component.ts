@@ -38,8 +38,7 @@ export class LoginComponent {
     this.submitted = true;
     if (this.loginForm.valid) {
       this.identifiant = this.loginForm.get('userName')?.value;
-      this.pwd = this.loginForm.get('passWord')?.value;
-      //this.pwd = Md5.hashStr(this.loginForm.get('passWord')?.value);
+      this.pwd = Md5.hashStr(this.loginForm.get('passWord')?.value);
       this.login(this.identifiant, this.pwd);
     }
     else {

@@ -14,7 +14,7 @@ styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
 
-  user: User = new User("",  "", "", "2023-01-28T16:15:40.430186");
+  user: User = new User("",  "", "", "");
   submitted = false;
   registerForm!: FormGroup;
   loginComp!: LoginComponent;
@@ -40,22 +40,23 @@ export class RegisterComponent {
       email:['',[Validators.required,Validators.email]],
 
     })
-    this.user.email = "";
-    this.user.pseudo = "";
-    this.user.password = "";
+    this.user.Email = "";
+    this.user.Nom_utilisateur = "";
+    this.user.Mot_de_passe = "";
   }
 
   OnSubmit() {
     if(this.registerForm.valid){
       this.is_valid_form = true;
       this.submitted = true;
-      this.user.email = this.registerForm.get('email')?.value;
-      this.user.pseudo = this.registerForm.get('userName')?.value;
-      this.user.password = Md5.hashStr(this.registerForm.get('passWord')?.value);
+      this.user.Email = this.registerForm.get('email')?.value;
+      this.user.Nom_utilisateur = this.registerForm.get('userName')?.value;
+      this.user.Mot_de_passe = Md5.hashStr(this.registerForm.get('passWord')?.value);
+      this.user.Date_inscription = Date.now().toString();
       this.rs.register(this.user);
 
       setTimeout(() => {
-        this.loginComp.login(this.user.pseudo, this.user.password);
+        this.loginComp.login(this.user.Nom_utilisateur, this.user.Mot_de_passe);
       },2000)
     }
     else{
