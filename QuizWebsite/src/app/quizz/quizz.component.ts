@@ -24,9 +24,10 @@ export class QuizzComponent /*implements OnInit*/ {
 
   Wizard: boolean = true;
   quizzes: any[] = [];
-  amount!: number;
-  category!: number;
+  amount!: string;
+  category!: string;
   difficulty!: string;
+  Type !: string;
 
   constructor(private domSanitizer: DomSanitizer, private quizzesService: QuizService) { }
   sanitize(url: string) {
@@ -49,6 +50,7 @@ export class QuizzComponent /*implements OnInit*/ {
       amount: new FormControl(this.amount),
       difficulty: new FormControl(this.difficulty),
       category: new FormControl(this.category),
+      Type: new FormControl(this.Type)
     })
   }
   /**
@@ -90,7 +92,7 @@ export class QuizzComponent /*implements OnInit*/ {
 
   OnSubmit(): void {
     this.Wizard = false;
-    this.quizzesService.getQuizzes().subscribe(
+    this.quizzesService.getQuizzes(this.wizardForm.value.amount, this.wizardForm.value.difficulty, this.wizardForm.value.category, this.wizardForm.value.Type).subscribe(
       response => {
         this.quizzes = response.results;
       },

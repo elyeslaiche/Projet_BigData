@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { QuizQuestion } from '../models/quiz.model';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -7,18 +6,29 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class QuizService {
-  private apiUrl = 'https://opentdb.com/api.php';
 
   constructor(private http: HttpClient) { }
 
-  getQuizzes(): Observable<any> {
-    const options = {
-      params: {
-        amount: '10', // Number of quizzes to fetch
-        category: '25', // Category of quizzes (Computers)
-        type: 'multiple' // Type of quizzes (multiple choice)
-      }
-    };
-    return this.http.get<any>(this.apiUrl, options);
+  getQuizzes(amount: string, difficulty:string, category:string, Type:string): Observable<any> {
+    
+    if (amount) {
+      var apiUrl = 'https://opentdb.com/api.php?amount=' + amount;
+    }else{
+      var apiUrl = 'https://opentdb.com/api.php?amount=10';
+    }
+
+    if (category) {
+      apiUrl += '&category=' + category;
+    }
+
+    if (difficulty) {
+      apiUrl += '&difficulty=' + difficulty;
+    }
+
+    if (Type) {
+      apiUrl += '&type=' + Type;
+    }
+    
+    return this.http.get<any>(apiUrl);
   }
 }
