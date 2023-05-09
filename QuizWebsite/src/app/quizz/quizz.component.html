@@ -67,11 +67,19 @@
 
 </div>
 <div *ngIf="!Wizard">
-    <div *ngFor="let quiz of quizzes">
+    <div class="quiz" *ngFor="let quiz of quizzes">
         <h2 [innerHTML]="quiz.question"></h2>
         <ul>
-          <li *ngFor="let answer of quiz.incorrect_answers" [innerHTML]="answer"></li>
-          <li [innerHTML]="quiz.correct_answer"></li>
+            <li *ngFor="let answer of quiz.incorrect_answers; let i = index;">
+                <span [innerHTML]="i+1"></span>
+                <span>)&ensp;</span>
+                <span [innerHTML]="answer"></span>
+            </li>
+            <li>
+                <span [innerHTML]="quiz.incorrect_answers.length+1"></span>
+                <span>)&ensp;</span>
+                <span [innerHTML]="quiz.correct_answer"></span>
+            </li>
         </ul>
-      </div>
-</div>  
+    </div>
+</div>

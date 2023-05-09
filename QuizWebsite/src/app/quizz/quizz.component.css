@@ -35,64 +35,37 @@ form {
     background-color: #0062cc;
   }
   
-  .error-message {
-    color: red;
-    font-size: 16px;
-    margin-top: 10px;
-  }
-
-  .question {
-    margin-bottom: 20px;
+  .quiz {
+    margin: 20px 0;
+    border: 1px solid #ccc;
+    border-radius: 10px;
     padding: 20px;
+    background-color: #f7f7f7;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .quiz h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .quiz ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .quiz li {
+    margin-bottom: 10px;
+    padding: 10px;
     background-color: #fff;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
   }
   
-  .question h2 {
-    margin-top: 0;
-    margin-bottom: 20px;
-    font-size: 24px;
-    font-weight: bold;
-  }
-  
-  .question p {
-    margin-top: 0;
-    margin-bottom: 10px;
-    font-size: 18px;
-    line-height: 1.5;
-  }
-  
-  .question .choices {
-    margin-top: 10px;
-  }
-  
-  .question .choices label {
-    display: block;
-    margin-bottom: 10px;
-    font-size: 16px;
-    line-height: 1.5;
+  .quiz li:hover {
+    background-color: #f0f0f0;
     cursor: pointer;
-  }
-  
-  .question .choices input[type="radio"] {
-    margin-right: 10px;
-    cursor: pointer;
-  }
-  
-  .question .feedback {
-    margin-top: 10px;
-    font-size: 16px;
-    line-height: 1.5;
-  }
-  
-  .question .feedback.correct {
-    color: green;
-    font-weight: bold;
-  }
-  
-  .question .feedback.incorrect {
-    color: red;
-    font-weight: bold;
   }
   
   
