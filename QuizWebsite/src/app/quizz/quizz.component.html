@@ -1,4 +1,4 @@
-<!-- <div style="text-align:center;margin-top: 200px;">
+ <div style="text-align:center;margin-top: 200px;">
     <button (click)="initiateRecording()" class="btn btn-primary" *ngIf="!recording"
         style="cursor: pointer;background-color: green;color: white;font-size: 40px;"> Start Recording </button>
     <button (click)="stopRecording()" class="btn btn-danger" *ngIf="recording"
@@ -6,9 +6,9 @@
     <audio controls="" *ngIf="url">
         <source [src]="sanitize(url)" type="audio/wav">
     </audio>
-</div> -->
+</div> 
 
-<div *ngIf="Wizard">
+<!-- <div *ngIf="Wizard">
     <form [formGroup]="wizardForm" (ngSubmit)="OnSubmit()">
         <div class="form-group">
             <label for="numQuestions">Number of Questions</label>
@@ -82,4 +82,4 @@
             </li>
         </ul>
     </div>
-</div>
+</div> -->

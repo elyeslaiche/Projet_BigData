@@ -48,6 +48,26 @@ postUserCreated(user: User){
   return this.http.post<UserLogged>(`${this.apiUrl}/utilisateurs/`, user, {headers: this.headers})
 }
 
+postUploadFile(blob: Blob, username:string){
+  const formData = new FormData();
+  formData.append('audio', blob, 'recorded_audio_of_'+username +'_'+Math.floor(Math.random() * (1e9 - 0 + 1)) + 0+'.wav');
+
+  fetch(`${this.apiUrl}/upload`, {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => {
+    if (response.ok) {
+      console.log('Audio file uploaded successfully');
+    } else {
+      console.error('Error uploading audio file');
+    }
+  })
+  .catch(error => {
+    console.error('Error uploading audio file:', error);
+  });
+}
+
 postRegister(user: User){
   return  this.http.post<UserLogged>(`${this.apiUrl}/utilisateurs/`, user, {headers: this.headers})
 }

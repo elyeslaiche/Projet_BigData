@@ -1,8 +1,10 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { QuizService } from '../services/quizz.service';
+import { ApiQuizzWebsiteService } from '../services/api-quizz-website.service';
 import * as RecordRTC from 'recordrtc';
 import { DomSanitizer } from '@angular/platform-browser';
 import { FormControl, FormGroup } from '@angular/forms';
+import { LoginService, UserLogged } from '../services/login.service';
 
 @Component({
   selector: 'app-quizz',
@@ -28,8 +30,10 @@ export class QuizzComponent /*implements OnInit*/ {
   category!: string;
   difficulty!: string;
   Type !: string;
+  user !: UserLogged;
 
-  constructor(private domSanitizer: DomSanitizer, private quizzesService: QuizService) { }
+  constructor(private domSanitizer: DomSanitizer, private quizzesService: QuizService,
+    private apiService: ApiQuizzWebsiteService, private loginService: LoginService,) { }
   sanitize(url: string) {
     return this.domSanitizer.bypassSecurityTrustUrl(url);
   }
@@ -45,7 +49,8 @@ export class QuizzComponent /*implements OnInit*/ {
     navigator.mediaDevices.getUserMedia(mediaConstraints).then(this.successCallback.bind(this), this.errorCallback.bind(this));
   }
 
-  ngOnInit(){
+  ngOnInit() {
+    this.user = this.loginService.getUserLogged();
     this.wizardForm = new FormGroup({
       amount: new FormControl(this.amount),
       difficulty: new FormControl(this.difficulty),
@@ -74,14 +79,11 @@ export class QuizzComponent /*implements OnInit*/ {
     this.recording = false;
     this.record.stop(this.processRecording.bind(this));
   }
-  /**
-  * processRecording Do what ever you want with blob
-  * @param  {any} blob Blog
-  */
-  processRecording(blob: Blob | MediaSource) {
+
+  processRecording(blob: Blob) {
     this.url = URL.createObjectURL(blob);
-    console.log("blob", blob);
-    console.log("url", this.url);
+    // Upload the recorded audio as a .wav file to azure storage
+    this.apiService.postUploadFile(blob, this.user.Nom_utilisateur);
   }
   /**
   * Process Error.
