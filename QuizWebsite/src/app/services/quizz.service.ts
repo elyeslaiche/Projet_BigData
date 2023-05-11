@@ -1,32 +1,34 @@
 import { Injectable } from '@angular/core';
-import { QuizQuestion } from '../models/quiz.model';
-import axios from 'axios';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class QuizService {
-  ListQuizz!: QuizQuestion[];
-  openaiApiKey: string = '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';
 
-  async generateQuestion(prompt: string): Promise<string> {
-    const response = await axios.post(
-      'https://api.openai.com/v1/engines/davinci/completions',
-      {
-        prompt: prompt,
-        max_tokens: 1024,
-        n: 1,
-        stop: null,
-        temperature: 0.5,
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.openaiApiKey}`,
-        },
-      }
-    );
+  constructor(private http: HttpClient) { }
 
-    return response.data.choices[0].text.trim();
+  getQuizzes(amount: string, difficulty:string, category:string, Type:string): Observable<any> {
+    
+    if (amount) {
+      var apiUrl = 'https://opentdb.com/api.php?amount=' + amount;
+    }else{
+      var apiUrl = 'https://opentdb.com/api.php?amount=10';
+    }
+
+    if (category) {
+      apiUrl += '&category=' + category;
+    }
+
+    if (difficulty) {
+      apiUrl += '&difficulty=' + difficulty;
+    }
+
+    if (Type) {
+      apiUrl += '&type=' + Type;
+    }
+    
+    return this.http.get<any>(apiUrl);
   }
 }

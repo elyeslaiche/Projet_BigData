@@ -6,23 +6,13 @@ import {Router} from "@angular/router";
   providedIn: 'root'
 })
 export class LoginService {
-  //  apiUrl="http://localhost:8000/users";
+
    user!: UserLogged;
    isConnected = false;
-
-  // headers = new HttpHeaders()
-  //   .set('Content-Type', 'application/json')
-  //   .set('Access-Control-Allow-Origin', '*');
 
   constructor(private http: HttpClient,
               private router: Router)
  { }
-
-
-  // getLoginResponse(identifiant: string): Observable<UserLogged> {
-  //   return this.http.get<UserLogged>(`${this.apiUrl}/${identifiant}`,
-  //     {headers: this.headers});
-  // }
 
   public setUserLogged(value: UserLogged){
     localStorage.setItem('user', JSON.stringify(value));
@@ -47,11 +37,11 @@ export class LoginService {
 
 
 export class UserLogged {
-   constructor(
-     public id: number,
-     public pseudo: string,
-     public email: string,
-     public password: string,
-     public last_updated: string,
-   ) { }
+  constructor(
+    public ID_utilisateur: number,
+    public Nom_utilisateur: string,
+    public Email: string,
+    public Mot_de_passe: string,
+    public Date_inscription: string,
+  ) { }
 }

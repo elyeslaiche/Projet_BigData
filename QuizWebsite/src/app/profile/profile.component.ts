@@ -37,9 +37,9 @@ export class ProfileComponent {
     this.user = this.ls.getUserLogged();
     console.log(this.user);
     this.profileForm = new FormGroup({
-      name: new FormControl(this.user.pseudo),
-      pseudo: new FormControl(this.user.pseudo),
-      email: new FormControl(this.user.email),
+      name: new FormControl(this.user.Nom_utilisateur),
+      pseudo: new FormControl(this.user.Nom_utilisateur),
+      email: new FormControl(this.user.Email),
       newPassword: new FormControl('', [Validators.required,Validators.pattern(
         '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$'
       )])
@@ -47,20 +47,20 @@ export class ProfileComponent {
   }
 
   onSubmit() {
-    this.apiService.putResetPwd(this.user.pseudo,this.user.password,this.profileForm.value.newPassword).subscribe(
+    this.apiService.putResetPwd(this.user.Nom_utilisateur,this.user.Mot_de_passe,this.profileForm.value.newPassword).subscribe(
         (response: any) => {
           console.log(response);
-          this.user.password = Md5.hashStr(this.profileForm.value.newPassword);
+          this.user.Mot_de_passe = Md5.hashStr(this.profileForm.value.newPassword);
         },
         (error: any) => console.log(error)
         ),  {headers: this.apiService.headers}
-    console.log(`after submit ${this.user.password}`)
+    console.log(`after submit ${this.user.Mot_de_passe}`)
     }
 
   Ondelete() {
     const Confirmation = confirm("Are you sure you want to do that?");
     if(Confirmation){
-      this.apiService.deleteUser(this.user.pseudo,this.user.password).subscribe(
+      this.apiService.deleteUser(this.user.Nom_utilisateur,this.user.Mot_de_passe).subscribe(
         (response: any) => {
           this.LogOut();
         },

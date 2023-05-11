@@ -1,12 +1,10 @@
-import { Component, /*OnInit*/ } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { QuizService } from '../services/quizz.service';
-
-interface Question {
-  text: string;
-  answer: boolean | null;
-  correctAnswer: boolean;
-  commentary: string;
-}
+import { ApiQuizzWebsiteService } from '../services/api-quizz-website.service';
+import * as RecordRTC from 'recordrtc';
+import { DomSanitizer } from '@angular/platform-browser';
+import { FormControl, FormGroup } from '@angular/forms';
+import { LoginService, UserLogged } from '../services/login.service';
 
 @Component({
   selector: 'app-quizz',
@@ -14,125 +12,95 @@ interface Question {
   styleUrls: ['./quizz.component.css']
 })
 export class QuizzComponent /*implements OnInit*/ {
-  generatedQuestion!: string;
-  test!: string;
 
-  constructor(private quizService: QuizService) {}
+  wizardForm!: FormGroup;
 
-  questions: Question[] = [
-    {
-      text: '1+1 = 2',
-      answer: null,
-      correctAnswer: true,
-      commentary: 'c est juste evident'
-    },
-    {
-      text: '2+2 = 2',
-      answer: null,
-      correctAnswer: false,
-      commentary: 'explication plus poussée'
-    },
-    {
-      text: '1+1 = 4',
-      answer: null,
-      correctAnswer: false,
-      commentary: 'c est juste evident'
-    },
-    {
-      text: '2+2 = 4',
-      answer: null,
-      correctAnswer: true,
-      commentary: 'c est juste evident'
-    },
-    {
-      text: '4+1 = 5',
-      answer: null,
-      correctAnswer: true,
-      commentary: 'c est juste evident'
-    },
-    {
-      text: '6+6 = 12',
-      answer: null,
-      correctAnswer: true,
-      commentary: 'c est juste evident'
-    },
-    {
-      text: '1+25 = 2',
-      answer: null,
-      correctAnswer: false,
-      commentary: 'c est juste evident'
-    },
-    {
-      text: '1+15 = 16',
-      answer: null,
-      correctAnswer: true,
-      commentary: 'c est juste evident'
-    },
-    {
-      text: '1+0 = 2',
-      answer: null,
-      correctAnswer: false,
-      commentary: 'c est juste evident'
-    },
-    {
-      text: '1 = 2',
-      answer: null,
-      correctAnswer: false,
-      commentary: 'c est juste evident'
-    }
-  ];
+  title = 'micRecorder';
+  //Lets declare Record OBJ
+  record: any;
+  //Will use this flag for toggeling recording
+  recording = false;
+  //URL of Blob
+  url: any;
+  error: any;
 
-  /*async ngOnInit(): Promise<void> {
-    const prompt = '1+1=?';
-    this.generatedQuestion = await this.quizService.generateQuestion(prompt);
-    this.test = this.generatedQuestion;
-  
-    // Extrait les données de la question générée
-    const regex = /\("(.+?)", (True|False), "(.+?)"\)/;
-    const match = regex.exec(this.generatedQuestion);
-  
-    if (match !== null) {
-      const text = match[1];
-      const correctAnswer = match[2] === 'True';
-      const commentary = match[3];
-  
-      // Ajoute la question générée au tableau de questions
-      this.questions.push({ text, answer: null, correctAnswer, commentary });
-    }
-  }*/ 
+  Wizard: boolean = true;
+  quizzes: any[] = [];
+  amount!: string;
+  category!: string;
+  difficulty!: string;
+  Type !: string;
+  user !: UserLogged;
 
-  currentQuestion: number = 0;
-  showAnswers: boolean = false;
-  score: number = 0;
-  endofquiz: boolean = false;
-
-  checkAnswer(Answer: boolean) {
-    if (this.questions[this.currentQuestion].correctAnswer == Answer)
-    {
-      this.questions[this.currentQuestion].answer = true;
-      this.score = this.score + 1;
-    }
-    else
-    {
-      this.questions[this.currentQuestion].answer = false;
-    }
-    this.showAnswers = true;
+  constructor(private domSanitizer: DomSanitizer, private quizzesService: QuizService,
+    private apiService: ApiQuizzWebsiteService, private loginService: LoginService,) { }
+  sanitize(url: string) {
+    return this.domSanitizer.bypassSecurityTrustUrl(url);
+  }
+  /**
+  * Start recording.
+  */
+  initiateRecording() {
+    this.recording = true;
+    let mediaConstraints = {
+      video: false,
+      audio: true
+    };
+    navigator.mediaDevices.getUserMedia(mediaConstraints).then(this.successCallback.bind(this), this.errorCallback.bind(this));
   }
 
-  nextQuestion() {
-    this.showAnswers = false;
-    this.questions[this.currentQuestion].answer = null;
-    if (this.currentQuestion < this.questions.length - 1) {
-      this.currentQuestion++;
-    } 
-    else {
-      this.endofquiz = true;
-    }
+  ngOnInit() {
+    this.user = this.loginService.getUserLogged();
+    this.wizardForm = new FormGroup({
+      amount: new FormControl(this.amount),
+      difficulty: new FormControl(this.difficulty),
+      category: new FormControl(this.category),
+      Type: new FormControl(this.Type)
+    })
+  }
+  /**
+  * Will be called automatically.
+  */
+  successCallback(stream: MediaStream) {
+    var options: RecordRTC.Options = {
+      mimeType: "audio/wav",
+      numberOfAudioChannels: 1,
+      sampleRate: 48000,
+    };
+    //Start Actuall Recording
+    var StereoAudioRecorder = RecordRTC.StereoAudioRecorder;
+    this.record = new StereoAudioRecorder(stream, options);
+    this.record.record();
+  }
+  /**
+  * Stop recording.
+  */
+  stopRecording() {
+    this.recording = false;
+    this.record.stop(this.processRecording.bind(this));
   }
 
-  restartquiz(){
-    this.score = 0;
-    this.currentQuestion = 0;
-    this.endofquiz = false;
+  processRecording(blob: Blob) {
+    this.url = URL.createObjectURL(blob);
+    // Upload the recorded audio as a .wav file to azure storage
+    this.apiService.postUploadFile(blob, this.user.Nom_utilisateur);
+  }
+  /**
+  * Process Error.
+  */
+  errorCallback(error: any) {
+    this.error = 'Can not play audio in your browser';
+  }
+
+  OnSubmit(): void {
+    this.Wizard = false;
+    this.quizzesService.getQuizzes(this.wizardForm.value.amount, this.wizardForm.value.difficulty, this.wizardForm.value.category, this.wizardForm.value.Type).subscribe(
+      response => {
+        this.quizzes = response.results;
+      },
+      error => {
+        console.log('Error fetching quizzes:', error);
+      }
+    );
   }
 }

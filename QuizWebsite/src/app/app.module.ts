@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { MenuComponent } from './menu/menu.component';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatListModule} from '@angular/material/list';
@@ -58,14 +57,19 @@ import {DialogModule} from '@angular/cdk/dialog';
 import {QuizzComponent} from './quizz/quizz.component';
 import { AccueilComponent } from './accueil/accueil.component';
 import { ProfileComponent } from './profile/profile.component';
+import { LoginComponent } from './Connection/login/login.component';
+import { RegisterComponent } from './Connection/register/register.component';
+import { BaselineComponent } from './baseline/baseline.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MenuComponent,
     QuizzComponent,
     AccueilComponent,
-    ProfileComponent
+    ProfileComponent,
+    LoginComponent,
+    RegisterComponent,
+    BaselineComponent
   ],
   imports: [
     BrowserModule,
