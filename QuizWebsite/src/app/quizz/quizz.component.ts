@@ -19,29 +19,28 @@ export class QuizzComponent /*implements OnInit*/ {
   //Lets declare Record OBJ
   record: any;
   //Will use this flag for toggeling recording
-  recording = false;
+  recordingStates: boolean[] = [];
   //URL of Blob
-  url: any;
   error: any;
 
   Wizard: boolean = true;
-  quizzes: any[] = [];
+  predictionValue!: string;
+  donePrediction: boolean = false ;
   amount!: string;
   category!: string;
   difficulty!: string;
   Type !: string;
   user !: UserLogged;
+  game !: Game;
+  currentQuestionIndex!: number;
 
   constructor(private domSanitizer: DomSanitizer, private quizzesService: QuizService,
     private apiService: ApiQuizzWebsiteService, private loginService: LoginService,) { }
-  sanitize(url: string) {
-    return this.domSanitizer.bypassSecurityTrustUrl(url);
-  }
   /**
   * Start recording.
   */
-  initiateRecording() {
-    this.recording = true;
+  initiateRecording(index: number) {
+    this.recordingStates[index] = true;
     let mediaConstraints = {
       video: false,
       audio: true
@@ -75,15 +74,19 @@ export class QuizzComponent /*implements OnInit*/ {
   /**
   * Stop recording.
   */
-  stopRecording() {
-    this.recording = false;
+  stopRecording(index: number) {
+    this.recordingStates[index] = false;
+    this.currentQuestionIndex = index;
     this.record.stop(this.processRecording.bind(this));
   }
 
   processRecording(blob: Blob) {
-    this.url = URL.createObjectURL(blob);
-    // Upload the recorded audio as a .wav file to azure storage
+    // Upload the recorded audio as a .wav file to azure storage    
     this.apiService.postUploadFile(blob, this.user.Nom_utilisateur);
+    this.apiService.predictAudio(blob).subscribe(response => {
+      this.predictionValue = response.prediction;
+      this.donePrediction = true;
+    });
   }
   /**
   * Process Error.
@@ -92,15 +95,78 @@ export class QuizzComponent /*implements OnInit*/ {
     this.error = 'Can not play audio in your browser';
   }
 
-  OnSubmit(): void {
-    this.Wizard = false;
+  shuffleArray(array: any) {
+    var m = array.length, t, i;
+ 
+    while (m) {    
+     i = Math.floor(Math.random() * m--);
+     t = array[m];
+     array[m] = array[i];
+     array[i] = t;
+    }
+ 
+   return array;
+  }
+
+  OnSubmit(): void {    
     this.quizzesService.getQuizzes(this.wizardForm.value.amount, this.wizardForm.value.difficulty, this.wizardForm.value.category, this.wizardForm.value.Type).subscribe(
       response => {
-        this.quizzes = response.results;
+        this.game = new Game(this.user.ID_utilisateur,(this.wizardForm.value.category === '') ? 1 : this.wizardForm.value.category , this.wizardForm.value.difficulty,
+          this.wizardForm.value.amount);
+        this.game.questions = new Array<Question>;
+        if(this.wizardForm.value.Type === 'multiple')
+        {
+          this.game.typeOfQuestions = 1
+        }else{
+          this.game.typeOfQuestions = 0
+        }
+        for (let question of response.results){
+          let Qst = new Question(question.question);
+          Qst.answers = new Array<Answer>();
+          for (let answer of question.incorrect_answers){
+            Qst.answers.push(new Answer(answer, false))
+          }
+          Qst.answers.push(new Answer(question.correct_answer, true));
+          Qst.answers = this.shuffleArray(Qst.answers);
+          this.game.questions.push(Qst);
+        }
+        console.log(this.game)
       },
       error => {
         console.log('Error fetching quizzes:', error);
       }
     );
+    this.Wizard = false;
   }
+}
+
+
+export class Game {
+  constructor(
+    public idUtilisateur: number,
+    public idCategory: number,
+    public difficulty: string,
+    public numberOfQuestions: number,
+  ) { }
+
+  public questions!: Array<Question>;
+  public typeOfQuestions!: TypeOfQuestion
+}
+
+export class Question {
+  constructor(
+    public question: string,
+    ) { }
+    public answers!: Array<Answer>;
+}
+
+export class Answer {
+  constructor(
+    public answer: string,
+    public isCorrect: boolean) { }
+}
+
+enum TypeOfQuestion {
+  'true/false',
+  'multipleChoice'
 }
