@@ -1,0 +1,36 @@
+.card{
+    background-color: #f8efea;
+}
+
+.card .mb-3{
+    border-radius: .5rem;
+}
+
+.lg-title{
+    text-align: center;
+    padding-top:0.5rem;
+}
+
+.username{
+    margin-left:25%;
+}
+
+.password{
+    margin:auto;
+    display:flex;
+}
+
+img{
+    height: 16px;
+    width: 16px;
+    margin:auto;
+    margin-left:0.5rem
+}
+
+input{
+    background-color: #faf7f5;
+}
+
+section{
+    background-color: #f4f5f7;
+}
