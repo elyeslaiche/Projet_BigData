@@ -77,13 +77,14 @@
                 style="cursor: pointer;background-color: red;color: white;display: inline-block; vertical-align:top;">
                 <i class="fa fa-microphone"></i> </button>
             <div *ngIf="donePrediction && currentQuestionIndex === i" class="prediction-container">
-                <input id="{{ 'questionAnswer' + i + 1 }}" type="text" class="prediction" [value]="predictionValue" disabled />
-                <button class="btn btn-success"><i class="fa fa-check-circle"></i></button>
+                <input id="{{ 'questionAnswer' + (i + 1) }}" type="text" class="prediction" [value]="predictionValue"
+                    [disabled]="!isAnswerSelectionEnabled" />
+                <button class="btn btn-success" (click)="selectAnswer(true)"><i class="fa fa-check-circle"></i></button>
+                <button class="btn btn-danger" (click)="undisableTextBox()"><i class="fa fa-times"></i></button>
             </div>
-
         </div>
         <ul>
-            <li *ngFor="let answer of question.answers; let j = index;">
+            <li *ngFor="let answer of question.answers; let j = index;" [ngClass]="{ 'highlighted': answer.isSelected }" >
                 <span [innerHTML]="j+1"></span>
                 <span>)&ensp;</span>
                 <span [innerHTML]="answer.answer"></span>
