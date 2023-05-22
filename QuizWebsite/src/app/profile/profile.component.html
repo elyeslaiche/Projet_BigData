@@ -1,49 +1,52 @@
-<section class="vh-100">
-    <div class="container py-5 h-100">
-      <div class="row d-flex justify-content-center align-items-center h-100">
-        <div class="col col-lg-6 mb-4 mb-lg-0">
-          <div class="card mb-3">
-            <form [formGroup]="profileForm">
-              <div class="row g-0">
-                <div class="col-md-4 gradient-custom text-center text-white">
-                  <img src="https://www.freeiconspng.com/thumbs/profile-icon-png/profile-icon-9.png" alt="Avatar"
-                    class="img-fluid my-3" />
-                  <i class="far fa-edit mb-5"></i>
-                  <div class="col-md-12 gradient-custom text-center text-white">
-                    <button class="btn btn-primary" (click)="Ondelete()">delete profile</button>
-                  </div>
+<div id="graphContainer">
+  <div class="graphs">
+    <div id="barplot-container"></div>
+    <div id="gauge-container"></div>
+  </div>
+
+  <div class="form-group">
+    <label for="difficulty">Difficulty</label>
+    <select class="form-control" [(ngModel)]="SelectedDifficulty" (change)="onOptionChange($event)">
+      <option value="default">--Select Difficulty--</option>
+      <option value="easy">Easy</option>
+      <option value="medium">Medium</option>
+      <option value="hard">Hard</option>
+    </select>
+  </div>
+</div>
+
+<section class="my-5">
+  <div class="container py-5">
+    <div class="row d-flex justify-content-center align-items-center">
+      <div class="col col-lg-6 mb-4 mb-lg-0">
+        <div class="card mb-3">
+          <form [formGroup]="profileForm">
+            <div class="row g-0">
+              <div class="col-md-4 gradient-custom text-center text-white">
+                <img src="https://www.freeiconspng.com/thumbs/profile-icon-png/profile-icon-9.png" alt="Avatar"
+                  class="img-fluid my-3" />
+                <i class="far fa-edit mb-5"></i>
+                <div class="col-md-12 gradient-custom text-center text-white mt-4">
+                  <button class="btn btn-primary" (click)="Ondelete()">Delete profile</button>
                 </div>
-                <div class="col-md-8">
-                  <div class="card-body p-4">
-                    <h6>Information</h6>
-                    <hr class="mt-0 mb-4">
-                    <div class="row pt-1">
-                      <div class="col-6 mb-3">
-                        <h6>Username</h6>
-                        <input type="text" class="form-control" formControlName="pseudo">
-                      </div>
-                      <div class="col-6 mb-3">
-                        <h6>E-mail</h6>
-                        <input type="text" class="form-control" formControlName="email">
-                      </div>
-                    </div>
-                    <div class="row pt-1">
-                      <div class="col-6 mb-3">
-                        <h6>New Password</h6>
-                        <input type="password" class="form-control" formControlName="newPassword">
-                      </div>
-                    </div>
-                    <div class="d-flex justify-content-center">
-                      <button *ngIf="profileForm.valid" type="submit" class="btn btn-primary">Update password</button>
-                      <p *ngIf="(!profileForm.valid) && (profileForm.value.newPassword != '')" class="text-danger"> New
-                        password has to be conform ! </p>
-                    </div>
+              </div>
+              <div class="col-md-8">
+                <div class="card-body p-4">
+                  <h6>Information</h6>
+                  <hr class="mt-0 mb-4">
+                  <div class="form-group pt-2">
+                    <input type="text" class="form-control mb-3" formControlName="pseudo" placeholder="Username">
+                    <input type="text" class="form-control mb-3" formControlName="email" placeholder="E-mail">
+                    <input type="password" class="form-control mb-3" formControlName="newPassword" placeholder="New Password">
+                    <p *ngIf="(!profileForm.valid) && (profileForm.value.newPassword != '')" class="text-danger mb-3"> New password has to be conform ! </p>
+                    <button *ngIf="profileForm.valid" type="submit" class="btn btn-primary">Update password</button>
                   </div>
                 </div>
               </div>
-            </form>
-          </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>

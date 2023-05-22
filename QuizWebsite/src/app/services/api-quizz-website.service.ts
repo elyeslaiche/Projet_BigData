@@ -43,6 +43,15 @@ export class ApiQuizzWebsiteService {
     return this.http.post<string[]>(`${this.apiUrl}/categories/`, { headers: this.headers });
   }
 
+  getNumberOfGamePlayed(user_id: number): Observable<any[]> {
+    return this.http.post<any[]>(`${this.apiUrl}/nbgamesperdiff?user_id=${user_id}`, { headers: this.headers });
+  }
+
+  getScorePerDiff(user_id:number): Observable<any[]> {
+    return this.http.post<any[]>(`${this.apiUrl}/scoreperdiff?user_id=${user_id}`, { headers: this.headers });
+  }
+
+
   sendScoreToDatabase(game: Game, score: number) {
     let body = {
       "ID_utilisateur": game.ID_Utilisateur,
