@@ -68,6 +68,17 @@ postUploadFile(blob: Blob, username:string){
   });
 }
 
+predictAudio(file: Blob): Observable<any> {
+  const formData: FormData = new FormData();
+  formData.append('file', file);
+
+  const headers = new HttpHeaders();
+  headers.append('Content-Type', 'multipart/form-data');
+  headers.append('Accept', 'application/json');
+
+  return this.http.post('http://localhost:8000/predict/', formData, { headers: headers });
+}
+
 postRegister(user: User){
   return  this.http.post<UserLogged>(`${this.apiUrl}/utilisateurs/`, user, {headers: this.headers})
 }

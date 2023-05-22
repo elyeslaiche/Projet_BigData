@@ -27,6 +27,8 @@ export class QuizService {
 
     if (Type) {
       apiUrl += '&type=' + Type;
+    }else{
+      apiUrl += '&type=multiple'
     }
     
     return this.http.get<any>(apiUrl);

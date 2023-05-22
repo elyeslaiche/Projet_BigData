@@ -1,4 +1,4 @@
- <div style="text-align:center;margin-top: 200px;">
+<!-- <div style="text-align:center;margin-top: 200px;">
     <button (click)="initiateRecording()" class="btn btn-primary" *ngIf="!recording"
         style="cursor: pointer;background-color: green;color: white;font-size: 40px;"> Start Recording </button>
     <button (click)="stopRecording()" class="btn btn-danger" *ngIf="recording"
@@ -6,9 +6,9 @@
     <audio controls="" *ngIf="url">
         <source [src]="sanitize(url)" type="audio/wav">
     </audio>
-</div> 
-
-<!-- <div *ngIf="Wizard">
+</div>  -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<div *ngIf="Wizard">
     <form [formGroup]="wizardForm" (ngSubmit)="OnSubmit()">
         <div class="form-group">
             <label for="numQuestions">Number of Questions</label>
@@ -67,19 +67,28 @@
 
 </div>
 <div *ngIf="!Wizard">
-    <div class="quiz" *ngFor="let quiz of quizzes">
-        <h2 [innerHTML]="quiz.question"></h2>
+    <div class="quiz" *ngFor="let question of game.questions;  let i = index;">
+        <div id="{{ 'question' + i + 1 }}">
+            <h2 [innerHTML]="question.question" style="display: inline-block; margin-right: 2rem; margin-top:auto"></h2>
+            <button (click)="initiateRecording(i)" class="btn btn-primary" *ngIf="!recordingStates[i]"
+                style="cursor: pointer;background-color: green;color: white;display: inline-block; vertical-align:top;">
+                <i class="fa fa-microphone"></i> </button>
+            <button (click)="stopRecording(i)" class="btn btn-danger" *ngIf="recordingStates[i]"
+                style="cursor: pointer;background-color: red;color: white;display: inline-block; vertical-align:top;">
+                <i class="fa fa-microphone"></i> </button>
+            <div *ngIf="donePrediction && currentQuestionIndex === i" class="prediction-container">
+                <input id="{{ 'questionAnswer' + (i + 1) }}" type="text" class="prediction" [value]="predictionValue"
+                    [disabled]="!isAnswerSelectionEnabled" />
+                <button class="btn btn-success" (click)="selectAnswer(true)"><i class="fa fa-check-circle"></i></button>
+                <button class="btn btn-danger" (click)="undisableTextBox()"><i class="fa fa-times"></i></button>
+            </div>
+        </div>
         <ul>
-            <li *ngFor="let answer of quiz.incorrect_answers; let i = index;">
-                <span [innerHTML]="i+1"></span>
+            <li *ngFor="let answer of question.answers; let j = index;" [ngClass]="{ 'highlighted': answer.isSelected }" >
+                <span [innerHTML]="j+1"></span>
                 <span>)&ensp;</span>
-                <span [innerHTML]="answer"></span>
-            </li>
-            <li>
-                <span [innerHTML]="quiz.incorrect_answers.length+1"></span>
-                <span>)&ensp;</span>
-                <span [innerHTML]="quiz.correct_answer"></span>
+                <span [innerHTML]="answer.answer"></span>
             </li>
         </ul>
     </div>
-</div> -->
+</div>

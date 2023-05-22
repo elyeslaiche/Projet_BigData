@@ -20,21 +20,6 @@ form {
     width: 100%;
   }
   
-  button {
-    background-color: #007bff;
-    border: none;
-    border-radius: 5px;
-    color: #fff;
-    cursor: pointer;
-    font-size: 20px;
-    padding: 10px 20px;
-    transition: background-color 0.3s ease;
-  }
-  
-  button:hover {
-    background-color: #0062cc;
-  }
-  
   .quiz {
     margin: 20px 0;
     border: 1px solid #ccc;
@@ -47,6 +32,7 @@ form {
   .quiz h2 {
     font-size: 20px;
     margin-bottom: 10px;
+    width:auto;
   }
   
   .quiz ul {
@@ -58,14 +44,48 @@ form {
   .quiz li {
     margin-bottom: 10px;
     padding: 10px;
-    background-color: #fff;
     border-radius: 5px;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
   }
-  
-  .quiz li:hover {
-    background-color: #f0f0f0;
-    cursor: pointer;
+
+  .prediction-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
   }
+  
+  .prediction {
+    flex-grow: 1;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    background-color: #f0f0f0;
+    border-radius: 5px 0 0 5px;
+  }
+  
+  .prediction:disabled {
+    background-color: #e9e9e9;
+  }
+
+  .highlighted {
+    background-color: #ce8460; /* Tomato color */
+    color: #FFFFFF; /* White color for the text */
+  }
+  
+  .btn-success {
+    display: inline-block;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    background-color: #28a745;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 0 5px 5px 0;
+  }
+  
+  .fa-check-circle {
+    margin-right: 5px;
+  }
+    
   
   

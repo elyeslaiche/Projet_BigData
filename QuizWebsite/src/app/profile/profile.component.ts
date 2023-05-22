@@ -35,7 +35,6 @@ export class ProfileComponent {
 
   ngOnInit(){
     this.user = this.ls.getUserLogged();
-    console.log(this.user);
     this.profileForm = new FormGroup({
       name: new FormControl(this.user.Nom_utilisateur),
       pseudo: new FormControl(this.user.Nom_utilisateur),
