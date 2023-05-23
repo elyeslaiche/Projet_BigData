@@ -20,8 +20,6 @@ export class BaselineComponent {
   }
 
   ngOnInit(){
-    console.log('ngOnInit')
-    this.router.navigate(['/home'])
     this.user = this.loginService.getUserLogged();
     if (this.user != null){
       this.isConnected = true;

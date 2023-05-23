@@ -1,4 +1,5 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component} from '@angular/core';
+import { Router } from '@angular/router';
 import { QuizService } from '../services/quizz.service';
 import { ApiQuizzWebsiteService } from '../services/api-quizz-website.service';
 import * as RecordRTC from 'recordrtc';
@@ -36,7 +37,8 @@ export class QuizzComponent /*implements OnInit*/ {
   isAnswerSelectionEnabled: boolean = false;
 
   constructor(private domSanitizer: DomSanitizer, private quizzesService: QuizService,
-    private apiService: ApiQuizzWebsiteService, private loginService: LoginService,) { }
+    private apiService: ApiQuizzWebsiteService, private loginService: LoginService,
+    private router: Router) { }
   /**
   * Start recording.
   */
@@ -112,15 +114,15 @@ export class QuizzComponent /*implements OnInit*/ {
   OnSubmit(): void {
     this.quizzesService.getQuizzes(this.wizardForm.value.amount, this.wizardForm.value.difficulty, this.wizardForm.value.category, this.wizardForm.value.Type).subscribe(
       response => {
-        this.game = new Game(this.user.ID_utilisateur, 
+        this.game = new Game(this.user.ID_utilisateur,
           (this.wizardForm.value.category === '') ? 1 : this.wizardForm.value.category,
           this.wizardForm.value.difficulty,
           this.wizardForm.value.amount);
         this.game.questions = new Array<Question>;
         if (this.wizardForm.value.Type === 'multiple' || this.wizardForm.value.Type === '') {
-          this.game.typeOfQuestions = 1
+          this.game.Type_questions = 1
         } else {
-          this.game.typeOfQuestions = 0
+          this.game.Type_questions = 0
         }
         for (let question of response.results) {
           let Qst = new Question(question.question);
@@ -150,7 +152,7 @@ export class QuizzComponent /*implements OnInit*/ {
         for (let answer of this.game.questions[this.currentQuestionIndex].answers) {
           if (answer.answer == 'True') {
             answer.isSelected = true;
-          }else{
+          } else {
             answer.isSelected = false;
           }
         }
@@ -160,12 +162,12 @@ export class QuizzComponent /*implements OnInit*/ {
         for (let answer of this.game.questions[this.currentQuestionIndex].answers) {
           if (answer.answer == 'False') {
             answer.isSelected = true;
-          }else{
+          } else {
             answer.isSelected = false;
           }
         }
         break;
-      
+
       case '1':
       case 'un':
         // Select first answer
@@ -212,19 +214,65 @@ export class QuizzComponent /*implements OnInit*/ {
     this.isAnswerSelectionEnabled = true;
   }
 
+  calculateScore() {
+    let score = 0;
+    let allQuestionsLength = 0;
+    for (let question of this.game.questions) {
+      allQuestionsLength++;
+      for (let answer of question.answers) {
+        if (answer.isSelected && answer.isCorrect) {
+          score++;
+        }
+      }
+    }
+    return (score / allQuestionsLength)*100;
+  }
+
+
+  onSubmitCompletedQuiz() {
+    let score = this.calculateScore();
+    // Send score to the database. This assumes you have a service with a method 
+    // called 'sendScoreToDatabase' that takes care of sending the score to the database.
+    this.apiService.sendScoreToDatabase(this.game, score).subscribe(
+      (response: any) => {
+        this.router.navigate(['/Profile']); // navigate to home page
+      },
+      (error: any) => {
+        console.log("error")
+      }
+    );
+  }
+
+
+  allQuestionsAnswered() {
+    for (let question of this.game.questions) {
+      let questionAnswered = false;
+      for (let answer of question.answers) {
+        if (answer.isSelected) {
+          questionAnswered = true;
+          break;
+        }
+      }
+      if (!questionAnswered) {
+        return false;
+      }
+    }
+    return true;
+  }
+
 }
 
 
 export class Game {
   constructor(
-    public idUtilisateur: number,
-    public idCategory: number,
-    public difficulty: string,
-    public numberOfQuestions: number,
+    public ID_Utilisateur: number,
+    public ID_Category: number,
+    public Difficulte: string,
+    public Nombre_questions: number,
   ) { }
 
   public questions!: Array<Question>;
-  public typeOfQuestions!: TypeOfQuestion
+  public Type_questions!: TypeOfQuestion
 }
 
 export class Question {

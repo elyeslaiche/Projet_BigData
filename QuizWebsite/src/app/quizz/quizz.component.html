@@ -1,12 +1,3 @@
-<!-- <div style="text-align:center;margin-top: 200px;">
-    <button (click)="initiateRecording()" class="btn btn-primary" *ngIf="!recording"
-        style="cursor: pointer;background-color: green;color: white;font-size: 40px;"> Start Recording </button>
-    <button (click)="stopRecording()" class="btn btn-danger" *ngIf="recording"
-        style="cursor: pointer;background-color: red;color: white;font-size: 40px;"> Stop Recording </button>
-    <audio controls="" *ngIf="url">
-        <source [src]="sanitize(url)" type="audio/wav">
-    </audio>
-</div>  -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <div *ngIf="Wizard" class="container-wizard">
     <form [formGroup]="wizardForm" (ngSubmit)="OnSubmit()">
@@ -84,11 +75,16 @@
             </div>
         </div>
         <ul>
-            <li *ngFor="let answer of question.answers; let j = index;" [ngClass]="{ 'highlighted': answer.isSelected }" >
+            <li *ngFor="let answer of question.answers; let j = index;"
+                [ngClass]="{ 'highlighted': answer.isSelected }">
                 <span [innerHTML]="j+1"></span>
                 <span>)&ensp;</span>
                 <span [innerHTML]="answer.answer"></span>
             </li>
         </ul>
+    </div>
+    <div class="d-flex justify-content-center w-100">
+        <button type="submit" class="btn btn-primary" *ngIf="allQuestionsAnswered()"
+            (click)="onSubmitCompletedQuiz()">Submit Quiz</button>
     </div>
 </div>
