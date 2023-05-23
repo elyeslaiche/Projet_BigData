@@ -2,24 +2,41 @@
           <nav class="header-container">
               <ul class="navigation-menu">
                 <li>
+<header class="header-top">
+          <nav class="header-container">
+              <ul class="navigation-menu">
+                <li>
                   <img src="../../assets/117944.png">
                    <a class="navigation-link" routerLink="home">Quizzons !</a>
+                   <a class="navigation-link" routerLink="home">Quizzons !</a>
                 </li>
+                <li class="navigation-item">
+                   <a class="navigation-link" *ngIf="isConnected" routerLink="Quizz">Start a Quizz</a>
                 <li class="navigation-item">
                    <a class="navigation-link" *ngIf="isConnected" routerLink="Quizz">Start a Quizz</a>
                 </li>
                 <li class="navigation-item">
                    <a class="navigation-link" *ngIf="isConnected" routerLink="Profile">Your Profile</a>
+                <li class="navigation-item">
+                   <a class="navigation-link" *ngIf="isConnected" routerLink="Profile">Your Profile</a>
                 </li>      
+                <li class="navigation-item">
+                   <a class="navigation-link" *ngIf="!isConnected" routerLink="Login">Log In</a>
                 <li class="navigation-item">
                    <a class="navigation-link" *ngIf="!isConnected" routerLink="Login">Log In</a>
                 </li>
                 <li class="navigation-item">
                    <a class="navigation-link" *ngIf="!isConnected" routerLink="Register">Sign In</a>
+                <li class="navigation-item">
+                   <a class="navigation-link" *ngIf="!isConnected" routerLink="Register">Sign In</a>
                 </li>
                 <li class="navigation-item">
                    <a class="navigation-link" *ngIf="isConnected"> Welcome {{user.Nom_utilisateur}} </a>
+                <li class="navigation-item">
+                   <a class="navigation-link" *ngIf="isConnected"> Welcome {{user.Nom_utilisateur}} </a>
                 </li>
+                <li class="navigation-item">
+                   <a class="navigation-link" *ngIf="isConnected" (click)="LogOut()">LogOut</a>
                 <li class="navigation-item">
                    <a class="navigation-link" *ngIf="isConnected" (click)="LogOut()">LogOut</a>
                 </li>
