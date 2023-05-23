@@ -27,10 +27,14 @@ export class ProfileComponent {
   email!: string;
   newPassword!: string;
   profileForm!: FormGroup;
+
+  categories !: any[];
   SelectedDifficulty!: string;
+  SelectedCategory!: string;
   chart: any; // Variable pour stocker l'instance d'ECharts
   user!: UserLogged;
-  data!: any[];
+  dataLine!: any[];
+  dataBar!: any[];
 
   constructor(private ls: LoginService,
     private http: HttpClient,
@@ -47,11 +51,16 @@ export class ProfileComponent {
     });
 
     this.fetchDataBarPlot();
-    this.fetchDataGaugePlot();
+    this.fetchCategories();
+    this.fetchDataLinePlot();
   }
 
-  onOptionChange(event: any) {
+  onOptionChangeDiff(event: any) {
     this.SelectedDifficulty = event.target.value;
+  }
+
+  onOptionChangeCat(event: any) {
+    this.SelectedCategory = event.target.value;
   }
 
   onSubmit() {
@@ -65,10 +74,22 @@ export class ProfileComponent {
     console.log(`after submit ${this.user.Mot_de_passe}`)
   }
 
+  fetchCategories(){
+    this.apiService.getCategories().subscribe(
+      (response: any[]) => {
+        console.log(response);
+        this.categories = response
+      },
+      (error: any) => {
+        console.error('Erreur lors de la récupération des données :', error);
+      }
+    );
+  }
+
   fetchDataBarPlot() {
     this.apiService.getNumberOfGamePlayed(this.user.ID_utilisateur).subscribe(
       (response: { difficulty: string; nb_game: number; }[]) => {
-        this.data = response;
+        this.dataBar = response;
         this.draw_graphBar();
       },
       (error: any) => {
@@ -77,11 +98,11 @@ export class ProfileComponent {
     );
   }
 
-  fetchDataGaugePlot() {
+  fetchDataLinePlot() {
     this.apiService.getScorePerDiff(this.user.ID_utilisateur).subscribe(
       (response: { difficulty: string, score: number }[]) => {
-        this.data = response;
-        this.draw_graphGauge();
+        this.dataLine = response;
+        this.draw_graphLine();
       },
       (error: any) => {
         console.error('Erreur lors de la récupération des données :', error);
@@ -89,7 +110,7 @@ export class ProfileComponent {
     );
   }
 
-  draw_graphGauge() {
+  draw_graphLine() {
     let gaugeContainer = document.getElementById('gauge-container');
     if (gaugeContainer)
       this.chart = echarts.init(gaugeContainer);
@@ -97,12 +118,12 @@ export class ProfileComponent {
 
     let mean_score = 0;
 
-    for (let i = 0; i < this.data.length; i++) {
+    for (let i = 0; i < this.dataLine.length; i++) {
       if (this.SelectedDifficulty = 'default') {
-        mean_score += this.data[i].score;
+        mean_score += this.dataLine[i].score;
       }
-      if (this.data[i].difficulty = this.SelectedDifficulty) {
-        mean_score += this.data[i].score;
+      if (this.dataLine[i].difficulty = this.SelectedDifficulty) {
+        mean_score += this.dataLine[i].score;
       }
     }
 
@@ -151,14 +172,14 @@ export class ProfileComponent {
       },
       xAxis: {
         type: 'category',
-        data: this.data.map(item => Object.keys(item)[0])  // Extract difficulty from the object key
+        data: this.dataBar.map(item => Object.keys(item)[0])  // Extract difficulty from the object key
       },
       yAxis: {
         type: 'value'
       },
       series: [{
         type: 'bar',
-        data: this.data.map(item => Object.values(item)[0])  // Extract nb_game from the object value
+        data: this.dataBar.map(item => Object.values(item)[0])  // Extract nb_game from the object value
       }],
       itemStyle: {
         color: '#ce8460'  // specify your color here
