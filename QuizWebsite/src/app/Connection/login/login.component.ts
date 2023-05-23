@@ -60,7 +60,7 @@ export class LoginComponent {
       if ((ls.user.Nom_utilisateur == identifiant) && (ls.user.Mot_de_passe == pwd)) {
         ls.isConnected = true;
         ls.setUserLogged(ls.user);
-        router.navigate(['']).then(() => {
+        router.navigate(['/home']).then(() => {
           window.location.reload();
         });
         clear(loginForm);

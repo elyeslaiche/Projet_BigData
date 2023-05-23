@@ -1,13 +1,13 @@
-.container-wizard{
+.container-wizard {
   display: flex;
   align-items: center;
   flex: 1;
   justify-content: center;
   width: 100%;
-  height:80vh;
+  height: 80vh;
 }
 
-.input-text{
+.input-text {
   position: relative;
   width: 100%;
   padding: 1.5rem 1rem 1.5rem 1rem;
@@ -17,7 +17,7 @@
   font-size: 1rem;
 }
 
-.record-button{
+.record-button {
   background-color: #1663f1 !important;
   border: 1px solid #1663f1 !important;
 }
@@ -26,15 +26,15 @@
   box-shadow: 0 0 5px #1663f1;
 }
 
-.start-button{
+.start-button {
   position: relative;
   width: 100%;
   background-color: #1663f1;
   padding: 1.5rem 1rem 1.5rem 1rem;
-  margin-top:1rem;
+  margin-top: 1rem;
   border-radius: 0.75rem;
   border: 0px solid;
-  color : white;
+  color: white;
   font-weight: bold;
   font-size: 1.25rem;
 }
@@ -45,53 +45,106 @@
 }
 
 form {
+  max-width: 600px;
+  margin: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 20px;
-  border-radius: 5px;
-  background-color: #f3f3f3;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.form-group {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  margin-bottom: 20px;
+label {
+  margin-bottom: 10px;
+  font-size: 20px;
 }
-  .highlighted {
-    background-color: #1663f1;
-    color: #FFFFFF; /* White color for the text */
-  }
-  
-  .btn-success {
-    display: inline-block;
-    padding: 10px;
-    font-size: 16px;
-    border: none;
-    background-color: #28a745;
-    color: #fff;
-    cursor: pointer;
-    border-radius: 0 5px 5px 0;
-  }
-  
-  .fa-check-circle {
-    margin-right: 5px;
-  }
-    
-@media (max-height:800px)
-{
+
+select {
+  font-size: 18px;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.quiz h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  width: auto;
+}
+
+.prediction-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.prediction:disabled {
+  background-color: #e9e9e9;
+}
+
+.highlighted {
+  background-color: #1663f1;
+  color: #FFFFFF;
+  /* White color for the text */
+}
+
+.btn-success {
+  display: inline-block;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  background-color: #28a745;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 0 5px 5px 0;
+}
+
+@media (max-height:800px) {
   label {
     font-size: 15px;
   }
-  .input-text{
+
+  .input-text {
     margin-bottom: 0.75rem;
-    padding:1rem 1rem 1rem 1rem;
+    padding: 1rem 1rem 1rem 1rem;
   }
-  .start-button{
-    padding:1rem 1rem 1rem 1rem;
+
+  .start-button {
+    padding: 1rem 1rem 1rem 1rem;
   }
+}
+
+.quiz {
+  margin: 20px 0;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 20px;
+  background-color: #f7f7f7;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.quiz ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.quiz li {
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.prediction {
+  flex-grow: 1;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  background-color: #f0f0f0;
+  border-radius: 5px 0 0 5px;
+}
+
+.fa-check-circle {
+  margin-right: 5px;
 }

@@ -46,7 +46,9 @@ export class ProfileComponent {
       name: new FormControl(this.user.Nom_utilisateur),
       pseudo: new FormControl(this.user.Nom_utilisateur),
       email: new FormControl(this.user.Email),
-      newPassword: new FormControl('')
+      newPassword: new FormControl('', [Validators.required,Validators.pattern(
+        '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$'
+      )])
     });
 
     this.fetchDataBarPlot();
@@ -136,7 +138,6 @@ export class ProfileComponent {
           label: { // this object is responsible for displaying labels on the chart
             show: true,
             formatter: function(params: { name: any; value: any; percent: any; }) {
-              console.log(params.value)
               return `${params.value[1]} (${params.percent}%)`;
             }
           },
@@ -171,7 +172,7 @@ export class ProfileComponent {
         type: 'bar',
         data: this.dataBar.map(item => Object.values(item)[0]),  // Extract nb_game from the object value
         itemStyle: {
-          color: '#ce8460'  // specify your color here
+          color: '#1663f1'  // specify your color here
         }
       }],
       

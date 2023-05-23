@@ -7,10 +7,6 @@
     justify-content: center;
 }
 
-.tableau-toolbar {
-    /* Add styles for the toolbar if needed */
-}
-
 .tableau-viz-container {
     width: 850px;
     height: 100%;
