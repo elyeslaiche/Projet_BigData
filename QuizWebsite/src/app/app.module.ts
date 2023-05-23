@@ -60,6 +60,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { LoginComponent } from './Connection/login/login.component';
 import { RegisterComponent } from './Connection/register/register.component';
 import { BaselineComponent } from './baseline/baseline.component';
+import { ScoreDialogComponent } from './score-dialog/score-dialog.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +70,8 @@ import { BaselineComponent } from './baseline/baseline.component';
     ProfileComponent,
     LoginComponent,
     RegisterComponent,
-    BaselineComponent
+    BaselineComponent,
+    ScoreDialogComponent
   ],
   imports: [
     BrowserModule,

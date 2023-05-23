@@ -13,7 +13,7 @@ export class AccueilComponent {
   // Inherit attributes from the parent component
   @Input() dashboardIndex = 0;
   @Input() toolbar = 'hidden';
-  @Input() vizUrl = 'https://public.tableau.com/views/GarbageFE/Evolutiondesdechets?:language=fr-FR&publish=yes&:display_count=n&:origin=viz_share_link';
+  @Input() vizUrl = 'https://public.tableau.com/views/Dataviz_V1/Tableaudebord1?:language=fr-FR&publish=yes&:display_count=n&:origin=viz_share_link';
 
   public VizIndex = 'Tableau-Viz-' + this.dashboardIndex;
 

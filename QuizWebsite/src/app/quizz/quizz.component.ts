@@ -6,6 +6,8 @@ import * as RecordRTC from 'recordrtc';
 import { DomSanitizer } from '@angular/platform-browser';
 import { FormControl, FormGroup } from '@angular/forms';
 import { LoginService, UserLogged } from '../services/login.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ScoreDialogComponent } from '../score-dialog/score-dialog.component';
 
 @Component({
   selector: 'app-quizz',
@@ -36,7 +38,7 @@ export class QuizzComponent /*implements OnInit*/ {
   currentQuestionIndex!: number;
   isAnswerSelectionEnabled: boolean = false;
 
-  constructor(private domSanitizer: DomSanitizer, private quizzesService: QuizService,
+  constructor(public dialog: MatDialog, private domSanitizer: DomSanitizer, private quizzesService: QuizService,
     private apiService: ApiQuizzWebsiteService, private loginService: LoginService,
     private router: Router) { }
   /**
@@ -235,7 +237,13 @@ export class QuizzComponent /*implements OnInit*/ {
     // called 'sendScoreToDatabase' that takes care of sending the score to the database.
     this.apiService.sendScoreToDatabase(this.game, score).subscribe(
       (response: any) => {
-        this.router.navigate(['/Profile']); // navigate to home page
+        const dialogRef = this.dialog.open(ScoreDialogComponent, {
+          data: {score: score} // Pass data to dialog component if needed
+        });
+
+        setTimeout(() => {
+          this.router.navigate(['/Profile']);
+      }, 3000); // navigate to home page
       },
       (error: any) => {
         console.log("error")
