@@ -43,5 +43,7 @@ export class UserLogged {
     public Email: string,
     public Mot_de_passe: string,
     public Date_inscription: string,
+    public age: number,
+    public pays:string,
   ) { }
 }

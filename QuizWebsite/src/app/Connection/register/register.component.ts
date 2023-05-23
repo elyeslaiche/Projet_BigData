@@ -14,7 +14,7 @@ styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
 
-  user: User = new User("",  "", "", "");
+  user: User = new User("",  "", "", "", 0, "");
   submitted = false;
   registerForm!: FormGroup;
   loginComp!: LoginComponent;
@@ -36,6 +36,8 @@ export class RegisterComponent {
       userName:[''],
       passWord:[''],
       email:[''],
+      age:[],
+      country:[''],
 
     })
     this.user.Email = "";
@@ -51,6 +53,9 @@ export class RegisterComponent {
       this.user.Nom_utilisateur = this.registerForm.get('userName')?.value;
       this.user.Mot_de_passe = Md5.hashStr(this.registerForm.get('passWord')?.value);
       this.user.Date_inscription = Date.now().toString();
+      this.user.age = this.registerForm.get('age')?.value;
+      this.user.pays = this.registerForm.get('country')?.value;
+      console.log(this.user);
       this.rs.register(this.user);
 
       setTimeout(() => {

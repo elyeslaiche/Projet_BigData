@@ -46,6 +46,8 @@ export class ProfileComponent {
       name: new FormControl(this.user.Nom_utilisateur),
       pseudo: new FormControl(this.user.Nom_utilisateur),
       email: new FormControl(this.user.Email),
+      age: new FormControl(this.user.age),
+      country: new FormControl(this.user.pays),  
       newPassword: new FormControl('', [Validators.required,Validators.pattern(
         '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$'
       )])
@@ -96,7 +98,6 @@ export class ProfileComponent {
   fetchDataPiePlot() {
     this.apiService.getNbGamePerCat(this.user.ID_utilisateur).subscribe(
       (response: any[]) => {
-        console.log(response)
         this.dataPie = response;
         this.draw_graphPie();
       },

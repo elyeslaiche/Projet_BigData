@@ -9,6 +9,8 @@
           <p class="text-danger" *ngIf="!is_valid_form">Password must be an 8 to 12 string containing UpperCase and LowerCase letters, digits and special characters</p>
           <input class="input-text" type="text" formControlName="email" placeholder="Enter your e-mail">
           <p class="text-danger" *ngIf="!is_valid_form">This might not be a valid mail address</p>
+          <input class="input-text" type="number" formControlName="age" placeholder="Enter your age">
+          <input class="input-text" type="text" formControlName="country" placeholder="Enter your country">
           <button class="register-button" type="submit" *ngIf="!submitted">REGISTER</button>
           <p *ngIf="submitted" class="userCreated"> The user {{user.Nom_utilisateur}} has been created</p>
         </form>

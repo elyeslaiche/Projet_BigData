@@ -7,18 +7,43 @@
 <section>
   <div class="profile-page">
     <div class="card">
-    <form [formGroup]="profileForm">
-      <h6 class="profile-title">Informations</h6>
-      <h6 class="profile-info">Username</h6>
-      <input class="input-text" type="text" formControlName="pseudo">
-      <h6 class="profile-info">E-mail</h6>
-      <input class="input-text" type="text" formControlName="email">
-      <h6 class="profile-info">New Password</h6>
-      <input class="input-text" type="password" formControlName="newPassword">
-      <button class="update-button" *ngIf="profileForm.valid" type="submit">Update password</button>
-      <p *ngIf="(!profileForm.valid) && (profileForm.value.newPassword != '')" class="text-danger"> New password has to be conform ! </p>
-      <button class="delete-button" (click)="Ondelete()">delete profile</button>
-    </form>
+      <form [formGroup]="profileForm">
+        <h6 class="profile-title">Informations</h6>
+        <div class="input-row">
+          <div class="input-group">
+            <h6 class="profile-info">Username</h6>
+            <input class="input-text" type="text" formControlName="pseudo">
+          </div>
+          <div class="input-group">
+            <h6 class="profile-info">Pays</h6>
+            <input class="input-text" type="text" formControlName="country">
+          </div>
+        </div>
+        <div class="input-row">
+          <div class="input-group">
+            <h6 class="profile-info">E-mail</h6>
+            <input class="input-text" type="text" formControlName="email">
+          </div>
+          <div class="input-group">
+            <h6 class="profile-info">Age</h6>
+            <input class="input-text" type="text" formControlName="age">
+          </div>
+        </div>
+        <div class="input-row">
+          <div class="input-group">
+            <h6 class="profile-info">New Password</h6>
+            <input class="input-text" type="password" formControlName="newPassword">
+            <p *ngIf="(!profileForm.valid) && (profileForm.value.newPassword != '')" class="text-danger"> New password
+              has
+              to be conform ! </p>
+          </div>
+          <div class="input-group">
+            <button class="update-button" *ngIf="profileForm.valid" type="submit">Update password</button>
+            
+          </div>
+        </div>
+        <button class="delete-button" (click)="Ondelete()">delete profile</button>
+      </form>
     </div>
   </div>
 </section>
