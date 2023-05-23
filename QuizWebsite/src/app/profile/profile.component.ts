@@ -30,10 +30,9 @@ export class ProfileComponent {
 
   categories !: any[];
   SelectedDifficulty!: string;
-  SelectedCategory!: string;
   chart: any; // Variable pour stocker l'instance d'ECharts
   user!: UserLogged;
-  dataLine!: any[];
+  dataPie!: any[];
   dataBar!: any[];
 
   constructor(private ls: LoginService,
@@ -41,7 +40,7 @@ export class ProfileComponent {
     private router: Router,
     private apiService: ApiQuizzWebsiteService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.user = this.ls.getUserLogged();
     this.profileForm = new FormGroup({
       name: new FormControl(this.user.Nom_utilisateur),
@@ -51,16 +50,11 @@ export class ProfileComponent {
     });
 
     this.fetchDataBarPlot();
-    this.fetchCategories();
-    this.fetchDataLinePlot();
+    this.fetchDataPiePlot();
   }
 
   onOptionChangeDiff(event: any) {
     this.SelectedDifficulty = event.target.value;
-  }
-
-  onOptionChangeCat(event: any) {
-    this.SelectedCategory = event.target.value;
   }
 
   onSubmit() {
@@ -74,10 +68,9 @@ export class ProfileComponent {
     console.log(`after submit ${this.user.Mot_de_passe}`)
   }
 
-  fetchCategories(){
+  fetchCategories() {
     this.apiService.getCategories().subscribe(
       (response: any[]) => {
-        console.log(response);
         this.categories = response
       },
       (error: any) => {
@@ -98,11 +91,12 @@ export class ProfileComponent {
     );
   }
 
-  fetchDataLinePlot() {
-    this.apiService.getScorePerDiff(this.user.ID_utilisateur).subscribe(
-      (response: { difficulty: string, score: number }[]) => {
-        this.dataLine = response;
-        this.draw_graphLine();
+  fetchDataPiePlot() {
+    this.apiService.getNbGamePerCat(this.user.ID_utilisateur).subscribe(
+      (response: any[]) => {
+        console.log(response)
+        this.dataPie = response;
+        this.draw_graphPie();
       },
       (error: any) => {
         console.error('Erreur lors de la récupération des données :', error);
@@ -110,55 +104,51 @@ export class ProfileComponent {
     );
   }
 
-  draw_graphLine() {
-    let gaugeContainer = document.getElementById('gauge-container');
-    if (gaugeContainer)
-      this.chart = echarts.init(gaugeContainer);
-    // Configuration du graphique
+  async draw_graphPie() {
 
-    let mean_score = 0;
-
-    for (let i = 0; i < this.dataLine.length; i++) {
-      if (this.SelectedDifficulty = 'default') {
-        mean_score += this.dataLine[i].score;
-      }
-      if (this.dataLine[i].difficulty = this.SelectedDifficulty) {
-        mean_score += this.dataLine[i].score;
-      }
-    }
+    let LineContainer = document.getElementById('pie-container');
+    if (LineContainer)
+      this.chart = echarts.init(LineContainer);
 
     const options = {
       title: {
-        text: 'Score moyen selon la difficulté choisie',
-        subtext: 'Valeur par défaut : toutes les difficultés',
+        text: 'Number of games per theme',
         left: 'center'
       },
-      tooltip: {
-        formatter: '{a} <br/>{b} : {c}%'
+      legend: {
+        orient: 'vertical',
+        left: 'left',
+        data: this.dataPie.map(item => item[1]) // Map the names to the legend data
       },
       series: [
         {
-          name: 'Mean Score',
-          type: 'gauge',
-          detail: {
-            formatter: '{value}'
-          },
-          data: [
-            {
-              value: mean_score,
-              name: 'SCORE MOYEN DE LA DIFFICULTE'
+          name: 'Number of games per theme',
+          type: 'pie',
+          radius: '50%',
+          data: this.dataPie,
+          emphasis: {
+            itemStyle: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: 'rgba(0, 0, 0, 0.5)'
             }
-          ]
+          },
+          label: { // this object is responsible for displaying labels on the chart
+            show: true,
+            formatter: function(params: { name: any; value: any; percent: any; }) {
+              console.log(params.value)
+              return `${params.value[1]} (${params.percent}%)`;
+            }
+          },
         }
-      ],
-      itemStyle: {
-        color: '#ce8460'  // specify your color here
-      }
+      ]
     };
+
+
 
     this.chart.setOption(options);
   }
-  
+
   draw_graphBar() {
     // Configuration du graphique
     let barplotContainer = document.getElementById('barplot-container');
@@ -167,7 +157,7 @@ export class ProfileComponent {
 
     const options = {
       title: {
-        text: 'Nombre de parties par difficulté',
+        text: 'Number of games per difficulty',
         left: 'center'
       },
       xAxis: {
@@ -179,11 +169,12 @@ export class ProfileComponent {
       },
       series: [{
         type: 'bar',
-        data: this.dataBar.map(item => Object.values(item)[0])  // Extract nb_game from the object value
+        data: this.dataBar.map(item => Object.values(item)[0]),  // Extract nb_game from the object value
+        itemStyle: {
+          color: '#ce8460'  // specify your color here
+        }
       }],
-      itemStyle: {
-        color: '#ce8460'  // specify your color here
-      }
+      
     };
 
     if (this.chart) {

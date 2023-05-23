@@ -47,8 +47,8 @@ export class ApiQuizzWebsiteService {
     return this.http.post<any[]>(`${this.apiUrl}/nbgamesperdiff?user_id=${user_id}`, { headers: this.headers });
   }
 
-  getScorePerDiff(user_id:number): Observable<any[]> {
-    return this.http.post<any[]>(`${this.apiUrl}/scoreperdiff?user_id=${user_id}`, { headers: this.headers });
+  getNbGamePerCat(user_id:number): Observable<any[]> {
+    return this.http.post<any[]>(`${this.apiUrl}/nbgamepercat?user_id=${user_id}`, { headers: this.headers });
   }
 
 
