@@ -1,29 +1,14 @@
-<section class="vh-100">
-    <div class="container py-5 h-100">
-      <div class="row d-flex justify-content-center align-items-center h-100">
-        <div class="col col-lg-4 mb-4 mb-lg-0">
-          <div class="card mb-3">
-            <h2 class="lg-title">Login</h2>
-            <form [formGroup]="loginForm" (ngSubmit)="OnSubmit()">
-              <div class="card-body">
-                <div class="row pt-1">
-                  <div class="col-6 mb-3 username">
-                    <input class="form-control" type="text" formControlName="userName" placeholder="Username">
-                  </div>
-                  <div class="col-6 mb-3 password">
-                    <input class="form-control" [type]="showPassword ? 'text' : 'password'" placeholder="Password "
-                      formControlName="passWord">
-                    <img [src]="showPassword ? 'assets\\hidden.png' : 'assets\\view.png'"
-                      (click)="showPassword = !showPassword;">
-                  </div>
-                </div>
-                <div class="d-flex justify-content-center">
-                  <button type="submit" class="btn btn-primary">Login</button>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
+<section>
+  <div class="login-page">
+    <div class="centered-container">
+      <div class="card">
+        <h2 class="login-title">Enter your username and password</h2>
+        <form [formGroup]="loginForm" (ngSubmit)="OnSubmit()">
+          <input class="input-text" type="text" formControlName="userName" placeholder="Enter your username">
+          <input class="input-text" [type]="showPassword ? 'text' : 'password'" placeholder="Password"formControlName="passWord">
+          <button class="login-button" type="submit">LOGIN</button>
+        </form>
       </div>
     </div>
-  </section>
+  </div>
+</section>
