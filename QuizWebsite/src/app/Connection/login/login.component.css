@@ -4,7 +4,7 @@
     flex: 1;
     justify-content: center;
     width: 100%;
-    height: 90vh;
+    height: 80vh;
 }
 
 .centered-container {
@@ -69,6 +69,24 @@
     margin-bottom:2rem;
     margin-top:2rem;
     font-size: 1.75rem;
+}
+
+.form-label{
+    font-size:2rem;
+}
+
+@media (max-height:800px)
+{
+    .form-label{
+        font-size:1.25rem;
+    }
+    .input-text{
+        margin-bottom: 0.75rem;
+        padding:1rem 1rem 1rem 1rem;
+    }
+    .login-button{
+        padding:1rem 1rem 1rem 1rem;
+    }
 }
 
 @media (max-width: 1600px)
