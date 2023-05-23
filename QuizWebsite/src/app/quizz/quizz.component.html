@@ -1,23 +1,23 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<div *ngIf="Wizard">
+<div *ngIf="Wizard" class="container-wizard">
     <form [formGroup]="wizardForm" (ngSubmit)="OnSubmit()">
-        <div class="form-group">
-            <label for="numQuestions">Number of Questions</label>
-            <input type="number" class="form-control" id="numQuestions" name="numQuestions" formControlName="amount"
+        <div class="form-item">
+            <label class="form-label" for="numQuestions">Number of Questions</label>
+            <input type="number" class="input-text" id="numQuestions" name="numQuestions" formControlName="amount"
                 required>
         </div>
-        <div class="form-group">
-            <label for="difficulty">Difficulty</label>
-            <select class="form-control" id="difficulty" name="difficulty" formControlName="difficulty" required>
+        <div class="form-item">
+            <label class="form-label" for="difficulty">Difficulty</label>
+            <select class="input-text" id="difficulty" name="difficulty" formControlName="difficulty" required>
                 <option value="">--Select Difficulty--</option>
                 <option value="easy">Easy</option>
                 <option value="medium">Medium</option>
                 <option value="hard">Hard</option>
             </select>
         </div>
-        <div class="form-group">
-            <label for="category">Category</label>
-            <select class="form-control" id="category" name="category" formControlName="category" required>
+        <div class="form-item">
+            <label class="form-label" for="category">Category</label>
+            <select class="input-text" id="category" name="category" formControlName="category" required>
                 <option value="">Any Category</option>
                 <option value="9">General Knowledge</option>
                 <option value="10">Entertainment: Books</option>
@@ -45,15 +45,15 @@
                 <option value="32">Entertainment: Cartoon &amp; Animations</option>
             </select>
         </div>
-        <div class="form-group">
-            <label for="Type">Type of questions</label>
-            <select class="form-control" id="Type" name="Type" formControlName="Type" required>
+        <div class="form-item">
+            <label class="form-label" for="Type">Type of questions</label>
+            <select class="input-text" id="Type" name="Type" formControlName="Type" required>
                 <option value="">--Select Type of questions--</option>
                 <option value="multiple">Multiple choice</option>
                 <option value="boolean">True/False</option>
             </select>
         </div>
-        <button type="submit" class="btn btn-primary">Start Quiz</button>
+        <button type="submit" class="start-button">Start Quiz</button>
     </form>
 
 </div>
@@ -61,7 +61,7 @@
     <div class="quiz" *ngFor="let question of game.questions;  let i = index;">
         <div id="{{ 'question' + i + 1 }}">
             <h2 [innerHTML]="question.question" style="display: inline-block; margin-right: 2rem; margin-top:auto"></h2>
-            <button (click)="initiateRecording(i)" class="btn btn-primary" *ngIf="!recordingStates[i]"
+            <button (click)="initiateRecording(i)" class="btn btn-primary record-button" *ngIf="!recordingStates[i]"
                 style="cursor: pointer;background-color: green;color: white;display: inline-block; vertical-align:top;">
                 <i class="fa fa-microphone"></i> </button>
             <button (click)="stopRecording(i)" class="btn btn-danger" *ngIf="recordingStates[i]"
