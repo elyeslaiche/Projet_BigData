@@ -14,7 +14,7 @@ import { Game } from '../quizz/quizz.component';
 })
 export class ApiQuizzWebsiteService {
 
-  apiUrl = "http://localhost:8000";
+  apiUrl = "http://apideploymenteuyaro.azurewebsites.net";
   headers = new HttpHeaders()
     .set('Content-Type', 'application/json')
     .set("Access-Control-Allow-Methods", "DELETE, POST, GET, OPTIONS")
@@ -95,7 +95,7 @@ export class ApiQuizzWebsiteService {
     headers.append('Content-Type', 'multipart/form-data');
     headers.append('Accept', 'application/json');
 
-    return this.http.post('http://localhost:8000/predict/', formData, { headers: headers });
+    return this.http.post('http://apideploymenteuyaro.azurewebsites.net/predict/', formData, { headers: headers });
   }
 
   postRegister(user: User) {
